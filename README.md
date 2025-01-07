@@ -1,6 +1,8 @@
 # RT1 Assignment 2 - Part 1
 
-This package implements the functionality for controlling a robot in a simulation environment. It includes two main nodes: an action client (user_input.py) and a service server(get_last_target_service.py). The package allows the user to set a target position for the robot, cancel the target, and retrieve the last set target coordinates. It also publishes the robot's position and velocity as a custom message.
+This package implements the functionality for controlling a robot in a simulation environment. It includes two main nodes: an action client (user_input.py) and a service node (get_last_target_service.py). 
+
+The package allows the user to set a target position for the robot, cancel the target, and retrieve the last set target coordinates. It also publishes the robot's position and velocity as a custom message.
 
 ## Package Overview
 1. **User Input Node (`user_input.py`)**:
@@ -8,21 +10,23 @@ This package implements the functionality for controlling a robot in a simulatio
    - The user can also cancel the last goal.
    - The node publishes the robot's position and velocity to the `/pos_vel` topic.
 
-   
 2. **Get Last Target Service Node (`get_last_target_service.py`)**:
    - This node provides a service to return the last target position set by the user.
    - The service is called via `rosservice call /get_last_target`, and it returns the x and y coordinates of the last target.
-3. **Bug Action Server (`bug_as.py`)**:
-   - This node implements an action server that handles the robot's movement towards a target point.
-   - It uses the feedback and status of the action to determine when the target has been reached.
 
-4. **Go to Point Service Node (`go_to_point_service.py`)**:
-   - This node implements a service that allows the robot to move to a specific point based on user input.
+3. **Go to Point Service Node (`go_to_point_service.py`)**:
+   - This implements a finite state machine that controls whether the robot behaves correctly and lets it move towards a specified point.
+   - It also checks if the robot successfully reaches the goal.
 
-5. **Wall Follower Service Node (`wall_follow_service.py`)**:
+4. **Wall Follower Service Node (`wall_follow_service.py`)**:
    - This node implements a service to make the robot follow a wall in the simulation environment.
+   - It processes data to detect obstacles and avoid them: if an obstacle is detected on the front, the node makes the robot rotate until no obstacles are found.
 
-### Custom Messages:
+5. **Bug Action Server (`bug_as.py`)**:
+   - This node implements an action server that handles the robot's movement towards a target point.
+   - Using a function (change_state), it switches between `go_to_point` and `wall_follow` behaviours.
+
+### Custom messages and services:
 - **PositionVelocity.msg**: A custom message containing the robot's position (x, y) and velocity (vel_x, vel_z).
 - **GetLastTarget.srv**: A custom service that returns the last target coordinates (last_target_x, last_target_y).
 
@@ -41,6 +45,8 @@ The package includes a launch file (`assignment1.launch`) that launches all the 
     <node pkg="assignment_2_2024" type="user_input.py" name="user_input" output="screen" launch-prefix="lxterminal -e"/> 
     <node pkg="assignment_2_2024" type="get_last_target_service.py" name="get_last_target_service" />
 ```
+By adding ' launch-prefix="lxterminal -e" ', the node set_target_client.py is launched in a different terminal to allow the user to easily set the target.
+
 ## `user_input.py` Node
 
 The `user_input.py` node is a key component of the system, enabling user interaction for setting and canceling goals for the robot, while also publishing the robot's position and velocity. The node performs the following functions:
@@ -78,7 +84,7 @@ The `get_last_target_service.py` node provides a service to retrieve the last ta
 
 ### 2. Providing the Last Target via Service
 - The node provides a service (`/get_last_target`) that returns the last target position (x, y) when called.
-- The service uses the `GetLastTarget` service type, which includes the fields `last_target_x` and `last_target_y`.
+- The service uses the `GetLastTarget` service, created specifically for this purpose, which includes the fields `last_target_x` and `last_target_y`.
 
 ### 3. Node Execution
 - The node continuously runs and listens for service calls.
@@ -91,7 +97,7 @@ The `get_last_target_service.py` node provides a service to retrieve the last ta
 To run the package and launch the simulation environment, follow these steps:
 
 ### 1) Build the package: 
-If you haven't built the package yet, run the following command:
+If you haven't built the package yet, run the following command in your ROS workspace:
 ```bash
 catkin_make
 ```
@@ -100,13 +106,6 @@ catkin_make
 ```
 roslaunch assignment_2_2024 assignment1.launch
 ```
-This will start the simulation, and the following nodes will be launched:
-
-- wall_follow_service.py
-- go_to_point_service.py
-- bug_as.py
-- user_input.py
-- get_last_target_service.py
 
 ### 3) Set a new target:
 This node is run, by the launch file, in a separate terminal, allowing the user to directly access interface.
@@ -117,10 +116,10 @@ The robot will attempt to reach the target, and the position and velocity will b
 ### 4) Cancel the target:
 
 You can cancel the last goal by typing c in the terminal running the user_input.py node.
+
 ### 5) Get the last target coordinates:
 
-To retrieve the last set target, run the following command:
+To retrieve the last set target, run the following command in a new terminal:
 ```
 rosservice call /get_last_target
 ```
-The service will return the last target coordinates.
