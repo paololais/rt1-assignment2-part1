@@ -15,7 +15,6 @@ from actionlib_msgs.msg import GoalStatus
 pub = None
 first_start = 0
 
-###### PUBLISHER
 def publisher_node(msg):
     # Create a publisher
     global pub
@@ -32,14 +31,8 @@ def publisher_node(msg):
     my_pos_and_vel.vel_x = actual_vel_linear.x
     my_pos_and_vel.vel_z = actual_vel_angular.z
 
-    # rospy.loginfo(my_pos_and_vel)
     pub.publish(my_pos_and_vel)
-
-    # Set the publishing rate (e.g., 1 Hz)
-    #rate = rospy.Rate(0.1)  # 1 Hz
-
-
-####### CLIENT
+    
 def client():
     #global reached
     global first_start
@@ -62,9 +55,7 @@ def client():
         
         # the user wants to set a new goal
         if command == 'y':
-            #rospy.loginfo("Last goal: des_x = %f, des_y = %f", goal.target_pose.pose.position.x, goal.target_pose.pose.position.y)
-            
-            # get the input and check their consistency
+            # get the input and check validity
             while True:
                 input_x = input("Enter desired position x: ")
                 try:
