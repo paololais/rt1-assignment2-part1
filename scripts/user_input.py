@@ -1,5 +1,25 @@
 #!/usr/bin/env python
 
+"""
+User Input Node
+
+This node allows the user to set a target position for a robot in a simulation environment.
+It communicates with an action server and also publishes the robot's position and velocity.
+
+Nodes:
+    - `/user_input`
+    
+Published Topics:
+    - `/pos_vel` (assignment_2_2024/PositionVelocity): Robot position and velocity
+
+Subscribed Topics:
+    - `/odom` (nav_msgs/Odometry): Robot odometry data
+
+Action Clients:
+    - `/reaching_goal` (assignment_2_2024/PlanningAction)
+
+"""
+
 import rospy
 from geometry_msgs.msg import Point, Pose, Twist
 from nav_msgs.msg import Odometry
@@ -16,6 +36,12 @@ pub = None
 first_start = 0
 
 def publisher_node(msg):
+    """
+    Callback function that processes odometry data and publishes position and velocity.
+
+    Args:
+        msg (nav_msgs.msg.Odometry): Odometry message containing position and velocity data.
+    """
     # Create a publisher
     global pub
 
@@ -34,6 +60,9 @@ def publisher_node(msg):
     pub.publish(my_pos_and_vel)
     
 def client():
+    """
+    Action client function that allows the user to set and cancel goals.
+    """
     #global reached
     global first_start
 
@@ -112,6 +141,7 @@ def client():
 
 
 def main():
+    """ Initializes the ROS node and sets up publishers and subscribers. """
     rospy.init_node('user_input')
 
     global pub

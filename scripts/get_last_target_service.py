@@ -1,4 +1,19 @@
 #!/usr/bin/env python
+"""
+Get Last Target Service Node
+
+This node provides a service that returns the last target position set by the user.
+
+Nodes:
+    - `/get_last_target_service`
+    
+Services:
+    - `/get_last_target` (assignment_2_2024/GetLastTarget): Returns last target position (x, y)
+
+Subscribed Topics:
+    - `/pos_vel` (assignment_2_2024/PositionVelocity): Robot position and velocity
+
+"""
 
 import rospy
 import assignment_2_2024.msg
@@ -7,6 +22,12 @@ from assignment_2_2024.srv import GetLastTarget, GetLastTargetResponse
 
 
 def get_last_target(msg):
+    """
+    Callback function to update the last known target position.
+
+    Args:
+        msg (assignment_2_2024.msg.PositionVelocity): Message containing robot's position and velocity.
+    """
     global last_des_x, last_des_y
 
     # get last target from ros parameters. 
@@ -16,6 +37,15 @@ def get_last_target(msg):
     
     
 def result_callback(s):
+    """
+    Service callback function to return the last known target position.
+
+    Args:
+        req (assignment_2_2024.srv.GetLastTargetRequest): Service request.
+
+    Returns:
+        GetLastTargetResponse: The last known target position (x, y).
+    """
     global last_des_x, last_des_y 
     
     # store last target
@@ -27,6 +57,7 @@ def result_callback(s):
     	    
 
 def last_target_service():
+    """ Initializes the service node and starts the service. """
     rospy.init_node('get_last_target_service')
     rospy.loginfo("Last target node initialized")
 
