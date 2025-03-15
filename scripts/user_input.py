@@ -1,10 +1,30 @@
 #!/usr/bin/env python
 
 """
-User Input Node
+.. module:: user_input
+   :platform: Unix
+   :synopsis: Python module for assignment_2_2024
+.. moduleauthor:: Paolo Laishram
 
-This node allows the user to set a target position for a robot in a simulation environment.
-It communicates with an action server and also publishes the robot's position and velocity.
+Description:
+    This node allows the user to input a target position (x, y) for the robot and send it as a goal to the action server. The user can also cancel the last goal set.
+    
+    The node publishes the robot's position and velocity to the `/pos_vel` topic and communicates with an action server.
+
+    It provides the following functions:
+
+    - :func:`publisher_node`
+      
+      Callback function for the subscriber to the topic `/odom`.
+
+    - :func:`client`
+      
+      Implements an action client with a user interface for setting new target points or cancelling previous goals.
+
+    - :func:`main`
+      
+      Entry point of the module.
+
 
 Nodes:
     - `/user_input`
@@ -18,6 +38,7 @@ Subscribed Topics:
 Action Clients:
     - `/reaching_goal` (assignment_2_2024/PlanningAction)
 
+**Functions**:
 """
 
 import rospy

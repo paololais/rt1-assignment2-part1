@@ -1,8 +1,28 @@
 #!/usr/bin/env python
 """
-Get Last Target Service Node
+.. module:: get_last_target_service
+   :platform: Unix
+   :synopsis: Python module for assignment_2_2024
+.. moduleauthor:: Paolo Laishram
 
-This node provides a service that returns the last target position set by the user.
+Description:
+    This node provides a service that returns the last target position set by the user.
+    It performs the following functions:
+
+    - Retrieving the Last Target
+
+      - The node listens to the `/pos_vel` topic, which provides the robot's position and velocity.
+      - It extracts the last target position (x, y) from the ROS parameters `/des_pos_x` and `/des_pos_y`, which are updated when the user sets a new target.
+
+    - Providing the Last Target via Service
+
+      - The node provides a service (`/get_last_target`) that returns the last target position (x, y) when called.
+      - The service uses the `GetLastTarget` service, created specifically for this purpose, which includes the fields `last_target_x` and `last_target_y`.
+
+    - Node Execution
+
+      - The node continuously runs and listens for service calls.
+      - When a service call is made, it responds with the last target's position.
 
 Nodes:
     - `/get_last_target_service`

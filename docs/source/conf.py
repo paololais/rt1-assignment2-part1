@@ -48,3 +48,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# Extension configuration
+# -- Options for intersphinx extension ---------------------------------------
+# Example configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
