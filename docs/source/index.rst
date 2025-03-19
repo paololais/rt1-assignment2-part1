@@ -3,16 +3,27 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-assignment_2_2024 documentation
-===============================
-This package implements the functionality for controlling a robot in a simulation environment. It includes two main nodes: an action client (user_input.py) and a service node (get_last_target_service.py). 
-
-The package allows the user to set a target position for the robot, cancel the target, and retrieve the last set target coordinates. It also publishes the robot's position and velocity as a custom message.
-
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+assignment_2_2024 Documentation
+===============================
+This is the documentation of the assignment_2_2024 package, developed for the 
+Research Track course of Robotics Engineering Master's degree at University of Genoa.
+
+This package implements the functionalities to control a robot in a simulation 
+environment. It includes two main nodes: an action client (`user_input.py`) and 
+a service node (`get_last_target_service.py`). 
+
+**Features:**
+   - Set a target position for the robot.
+   - Cancel the target.
+   - Retrieve the last set target coordinates.
+   - Publish the robot's position and velocity as a custom message.
+
+For installation and usage, check the README file:  
+https://github.com/paololais/rt1-assignment2-part1
 
 Indices
 *******
@@ -20,19 +31,12 @@ Indices
 * :ref:`modindex`
 * :ref:`search`
 
-ROS Package Documentation
-**************************
-
-This is the documentation for the `rt1-assignment2-part1` package.
-
 User Input Service
 ==================
 .. automodule:: user_input
    :members:
-   :no-index:
 
 Last Target Service
 ===================
 .. automodule:: get_last_target_service
    :members:
-   :no-index:

@@ -4,27 +4,15 @@
 .. module:: user_input
    :platform: Unix
    :synopsis: Python module for assignment_2_2024
+   :no-index:
 .. moduleauthor:: Paolo Laishram
 
 Description:
-    This node allows the user to input a target position (x, y) for the robot and send it as a goal to the action server. The user can also cancel the last goal set.
+    This node allows the user to input a target position (x, y) for the robot and 
+    send it as a goal to the action server. The user can also cancel the last goal set.
     
-    The node publishes the robot's position and velocity to the `/pos_vel` topic and communicates with an action server.
-
-    It provides the following functions:
-
-    - :func:`publisher_node`
-      
-      Callback function for the subscriber to the topic `/odom`.
-
-    - :func:`client`
-      
-      Implements an action client with a user interface for setting new target points or cancelling previous goals.
-
-    - :func:`main`
-      
-      Entry point of the module.
-
+    The node publishes the robot's position and velocity to the `/pos_vel` topic and 
+    communicates with an action server.
 
 Nodes:
     - `/user_input`
@@ -39,6 +27,7 @@ Action Clients:
     - `/reaching_goal` (assignment_2_2024/PlanningAction)
 
 **Functions**:
+
 """
 
 import rospy
@@ -59,9 +48,15 @@ first_start = 0
 def publisher_node(msg):
     """
     Callback function that processes odometry data and publishes position and velocity.
+    
+    This function extracts the robot's position (`x, y`) and velocity (`linear_x, angular_z`) 
+    from an incoming odometry message and publishes them to the `/pos_vel` topic.
 
     Args:
         msg (nav_msgs.msg.Odometry): Odometry message containing position and velocity data.
+        
+    Returns:
+        None
     """
     # Create a publisher
     global pub
@@ -82,7 +77,16 @@ def publisher_node(msg):
     
 def client():
     """
-    Action client function that allows the user to set and cancel goals.
+    Action client function that allows the user to set new target points or to cancel previous goals.
+    This function continuously listens for user input to:
+    - Set a new target position (`x, y`).
+    - Cancel the last goal if it's still active.
+
+    It interacts with the `/reaching_goal` action server and updates ROS parameters 
+    for target positions.
+
+    Returns:
+        None
     """
     #global reached
     global first_start
@@ -162,7 +166,14 @@ def client():
 
 
 def main():
-    """ Initializes the ROS node and sets up publishers and subscribers. """
+    """ 
+    Entry point of the module.
+    This function initializes the ROS node, sets up publishers and subscribers and 
+    starts the action client to process user inputs.
+    
+    Returns: 
+        None 
+    """
     rospy.init_node('user_input')
 
     global pub

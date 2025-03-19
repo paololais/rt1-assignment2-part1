@@ -73,27 +73,15 @@
 <span class="sd">.. module:: user_input</span>
 <span class="sd">   :platform: Unix</span>
 <span class="sd">   :synopsis: Python module for assignment_2_2024</span>
+<span class="sd">   :no-index:</span>
 <span class="sd">.. moduleauthor:: Paolo Laishram</span>
 
 <span class="sd">Description:</span>
-<span class="sd">    This node allows the user to input a target position (x, y) for the robot and send it as a goal to the action server. The user can also cancel the last goal set.</span>
+<span class="sd">    This node allows the user to input a target position (x, y) for the robot and </span>
+<span class="sd">    send it as a goal to the action server. The user can also cancel the last goal set.</span>
 <span class="sd">    </span>
-<span class="sd">    The node publishes the robot&#39;s position and velocity to the `/pos_vel` topic and communicates with an action server.</span>
-
-<span class="sd">    It provides the following functions:</span>
-
-<span class="sd">    - :func:`publisher_node`</span>
-<span class="sd">      </span>
-<span class="sd">      Callback function for the subscriber to the topic `/odom`.</span>
-
-<span class="sd">    - :func:`client`</span>
-<span class="sd">      </span>
-<span class="sd">      Implements an action client with a user interface for setting new target points or cancelling previous goals.</span>
-
-<span class="sd">    - :func:`main`</span>
-<span class="sd">      </span>
-<span class="sd">      Entry point of the module.</span>
-
+<span class="sd">    The node publishes the robot&#39;s position and velocity to the `/pos_vel` topic and </span>
+<span class="sd">    communicates with an action server.</span>
 
 <span class="sd">Nodes:</span>
 <span class="sd">    - `/user_input`</span>
@@ -108,6 +96,7 @@
 <span class="sd">    - `/reaching_goal` (assignment_2_2024/PlanningAction)</span>
 
 <span class="sd">**Functions**:</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
@@ -130,9 +119,15 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">publisher_node</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Callback function that processes odometry data and publishes position and velocity.</span>
+<span class="sd">    </span>
+<span class="sd">    This function extracts the robot&#39;s position (`x, y`) and velocity (`linear_x, angular_z`) </span>
+<span class="sd">    from an incoming odometry message and publishes them to the `/pos_vel` topic.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        msg (nav_msgs.msg.Odometry): Odometry message containing position and velocity data.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Create a publisher</span>
     <span class="k">global</span> <span class="n">pub</span>
@@ -156,7 +151,16 @@
 <a class="viewcode-back" href="../index.html#user_input.client">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Action client function that allows the user to set and cancel goals.</span>
+<span class="sd">    Action client function that allows the user to set new target points or to cancel previous goals.</span>
+<span class="sd">    This function continuously listens for user input to:</span>
+<span class="sd">    - Set a new target position (`x, y`).</span>
+<span class="sd">    - Cancel the last goal if it&#39;s still active.</span>
+
+<span class="sd">    It interacts with the `/reaching_goal` action server and updates ROS parameters </span>
+<span class="sd">    for target positions.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#global reached</span>
     <span class="k">global</span> <span class="n">first_start</span>
@@ -239,7 +243,14 @@
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../index.html#user_input.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Initializes the ROS node and sets up publishers and subscribers. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Entry point of the module.</span>
+<span class="sd">    This function initializes the ROS node, sets up publishers and subscribers and </span>
+<span class="sd">    starts the action client to process user inputs.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">        None </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;user_input&#39;</span><span class="p">)</span>
 
     <span class="k">global</span> <span class="n">pub</span>

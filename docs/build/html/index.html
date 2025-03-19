@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>assignment_2_2024 documentation &mdash; assignment_2_2024 1.0 documentation</title>
+  <title>assignment_2_2024 Documentation &mdash; assignment_2_2024 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -43,13 +43,22 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">assignment_2_2024 documentation</a><ul>
+<li><a class="reference internal" href="#">assignment_2_2024 Documentation</a><ul>
 <li><a class="reference internal" href="#indices">Indices</a></li>
-<li><a class="reference internal" href="#ros-package-documentation">ROS Package Documentation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-user_input">User Input Service</a></li>
-<li><a class="reference internal" href="#module-get_last_target_service">Last Target Service</a></li>
+<li><a class="reference internal" href="#module-user_input">User Input Service</a><ul>
+<li><a class="reference internal" href="#user_input.client"><code class="docutils literal notranslate"><span class="pre">client()</span></code></a></li>
+<li><a class="reference internal" href="#user_input.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#user_input.publisher_node"><code class="docutils literal notranslate"><span class="pre">publisher_node()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-get_last_target_service">Last Target Service</a><ul>
+<li><a class="reference internal" href="#get_last_target_service.get_last_target"><code class="docutils literal notranslate"><span class="pre">get_last_target()</span></code></a></li>
+<li><a class="reference internal" href="#get_last_target_service.last_target_service"><code class="docutils literal notranslate"><span class="pre">last_target_service()</span></code></a></li>
+<li><a class="reference internal" href="#get_last_target_service.result_callback"><code class="docutils literal notranslate"><span class="pre">result_callback()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
         </div>
@@ -66,7 +75,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">assignment_2_2024 documentation</li>
+      <li class="breadcrumb-item active">assignment_2_2024 Documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -76,12 +85,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="assignment-2-2024-documentation">
-<h1>assignment_2_2024 documentation<a class="headerlink" href="#assignment-2-2024-documentation" title="Link to this heading"></a></h1>
-<p>This package implements the functionality for controlling a robot in a simulation environment. It includes two main nodes: an action client (user_input.py) and a service node (get_last_target_service.py).</p>
-<p>The package allows the user to set a target position for the robot, cancel the target, and retrieve the last set target coordinates. It also publishes the robot’s position and velocity as a custom message.</p>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 </div>
+<section id="assignment-2-2024-documentation">
+<h1>assignment_2_2024 Documentation<a class="headerlink" href="#assignment-2-2024-documentation" title="Link to this heading"></a></h1>
+<p>This is the documentation of the assignment_2_2024 package, developed for the
+Research Track course of Robotics Engineering Master’s degree at University of Genoa.</p>
+<p>This package implements the functionalities to control a robot in a simulation
+environment. It includes two main nodes: an action client (<cite>user_input.py</cite>) and
+a service node (<cite>get_last_target_service.py</cite>).</p>
+<dl class="simple">
+<dt><strong>Features:</strong></dt><dd><ul class="simple">
+<li><p>Set a target position for the robot.</p></li>
+<li><p>Cancel the target.</p></li>
+<li><p>Retrieve the last set target coordinates.</p></li>
+<li><p>Publish the robot’s position and velocity as a custom message.</p></li>
+</ul>
+</dd>
+</dl>
+<p>For installation and usage, check the README file:
+<a class="reference external" href="https://github.com/paololais/rt1-assignment2-part1">https://github.com/paololais/rt1-assignment2-part1</a></p>
 <section id="indices">
 <h2>Indices<a class="headerlink" href="#indices" title="Link to this heading"></a></h2>
 <ul class="simple">
@@ -90,29 +113,15 @@
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </section>
-<section id="ros-package-documentation">
-<h2>ROS Package Documentation<a class="headerlink" href="#ros-package-documentation" title="Link to this heading"></a></h2>
-<p>This is the documentation for the <cite>rt1-assignment2-part1</cite> package.</p>
-</section>
 </section>
 <section id="module-user_input">
 <span id="user-input-service"></span><h1>User Input Service<a class="headerlink" href="#module-user_input" title="Link to this heading"></a></h1>
 <p><em>Module author: Paolo Laishram</em></p>
 <dl>
-<dt>Description:</dt><dd><p>This node allows the user to input a target position (x, y) for the robot and send it as a goal to the action server. The user can also cancel the last goal set.</p>
-<p>The node publishes the robot’s position and velocity to the <cite>/pos_vel</cite> topic and communicates with an action server.</p>
-<p>It provides the following functions:</p>
-<ul>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">publisher_node()</span></code></p>
-<p>Callback function for the subscriber to the topic <cite>/odom</cite>.</p>
-</li>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">client()</span></code></p>
-<p>Implements an action client with a user interface for setting new target points or cancelling previous goals.</p>
-</li>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">main()</span></code></p>
-<p>Entry point of the module.</p>
-</li>
-</ul>
+<dt>Description:</dt><dd><p>This node allows the user to input a target position (x, y) for the robot and
+send it as a goal to the action server. The user can also cancel the last goal set.</p>
+<p>The node publishes the robot’s position and velocity to the <cite>/pos_vel</cite> topic and
+communicates with an action server.</p>
 </dd>
 <dt>Nodes:</dt><dd><ul class="simple">
 <li><p><cite>/user_input</cite></p></li>
@@ -133,24 +142,46 @@
 </dl>
 <p><strong>Functions</strong>:</p>
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_input.html#client"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Action client function that allows the user to set and cancel goals.</p>
+<dt class="sig sig-object py" id="user_input.client">
+<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_input.html#client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#user_input.client" title="Link to this definition"></a></dt>
+<dd><p>Action client function that allows the user to set new target points or to cancel previous goals.
+This function continuously listens for user input to:
+- Set a new target position (<cite>x, y</cite>).
+- Cancel the last goal if it’s still active.</p>
+<p>It interacts with the <cite>/reaching_goal</cite> action server and updates ROS parameters
+for target positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_input.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initializes the ROS node and sets up publishers and subscribers.</p>
+<dt class="sig sig-object py" id="user_input.main">
+<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_input.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#user_input.main" title="Link to this definition"></a></dt>
+<dd><p>Entry point of the module.
+This function initializes the ROS node, sets up publishers and subscribers and
+starts the action client to process user inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">publisher_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_input.html#publisher_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="user_input.publisher_node">
+<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">publisher_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_input.html#publisher_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#user_input.publisher_node" title="Link to this definition"></a></dt>
 <dd><p>Callback function that processes odometry data and publishes position and velocity.</p>
+<p>This function extracts the robot’s position (<cite>x, y</cite>) and velocity (<cite>linear_x, angular_z</cite>)
+from an incoming odometry message and publishes them to the <cite>/pos_vel</cite> topic.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>msg</strong> (<em>nav_msgs.msg.Odometry</em>) – Odometry message containing position and velocity data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -163,19 +194,19 @@
 <dt>Description:</dt><dd><p>This node provides a service that returns the last target position set by the user.
 It performs the following functions:</p>
 <ul class="simple">
-<li><p>Retrieving the Last Target</p>
+<li><p><strong>Retrieving the Last Target</strong>:</p>
 <ul>
 <li><p>The node listens to the <cite>/pos_vel</cite> topic, which provides the robot’s position and velocity.</p></li>
 <li><p>It extracts the last target position (x, y) from the ROS parameters <cite>/des_pos_x</cite> and <cite>/des_pos_y</cite>, which are updated when the user sets a new target.</p></li>
 </ul>
 </li>
-<li><p>Providing the Last Target via Service</p>
+<li><p><strong>Providing the Last Target via Service</strong>:</p>
 <ul>
 <li><p>The node provides a service (<cite>/get_last_target</cite>) that returns the last target position (x, y) when called.</p></li>
 <li><p>The service uses the <cite>GetLastTarget</cite> service, created specifically for this purpose, which includes the fields <cite>last_target_x</cite> and <cite>last_target_y</cite>.</p></li>
 </ul>
 </li>
-<li><p>Node Execution</p>
+<li><p><strong>Node Execution</strong>:</p>
 <ul>
 <li><p>The node continuously runs and listens for service calls.</p></li>
 <li><p>When a service call is made, it responds with the last target’s position.</p></li>
@@ -196,33 +227,58 @@ It performs the following functions:</p>
 </ul>
 </dd>
 </dl>
+<p><strong>Functions</strong>:</p>
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">get_last_target_service.</span></span><span class="sig-name descname"><span class="pre">get_last_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_last_target_service.html#get_last_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="get_last_target_service.get_last_target">
+<span class="sig-prename descclassname"><span class="pre">get_last_target_service.</span></span><span class="sig-name descname"><span class="pre">get_last_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_last_target_service.html#get_last_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_last_target_service.get_last_target" title="Link to this definition"></a></dt>
 <dd><p>Callback function to update the last known target position.</p>
+<p>This function listens to the <cite>/pos_vel</cite> topic, extracts the current
+target position from ROS parameters (<cite>/des_pos_x</cite> and <cite>/des_pos_y</cite>),
+and updates the global variables <cite>last_des_x</cite> and <cite>last_des_y</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>msg</strong> (<em>assignment_2_2024.msg.PositionVelocity</em>) – Message containing robot’s position and velocity.</p>
+<dd class="field-odd"><p><strong>msg</strong> (<em>assignment_2_2024.msg.PositionVelocity</em>) – the received message containing the robot’s position and velocity.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">get_last_target_service.</span></span><span class="sig-name descname"><span class="pre">last_target_service</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_last_target_service.html#last_target_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="get_last_target_service.last_target_service">
+<span class="sig-prename descclassname"><span class="pre">get_last_target_service.</span></span><span class="sig-name descname"><span class="pre">last_target_service</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_last_target_service.html#last_target_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_last_target_service.last_target_service" title="Link to this definition"></a></dt>
 <dd><p>Initializes the service node and starts the service.</p>
+<p>This function initializes the ROS node, subscribes to the <cite>/pos_vel</cite> topic to track
+the robot’s movement, and sets up the <cite>/get_last_target</cite> service to provide
+the last known target coordinates upon request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">get_last_target_service.</span></span><span class="sig-name descname"><span class="pre">result_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_last_target_service.html#result_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="get_last_target_service.result_callback">
+<span class="sig-prename descclassname"><span class="pre">get_last_target_service.</span></span><span class="sig-name descname"><span class="pre">result_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_last_target_service.html#result_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_last_target_service.result_callback" title="Link to this definition"></a></dt>
 <dd><p>Service callback function to return the last known target position.</p>
+<p>This function is executed when the <cite>/get_last_target</cite> service is called.
+It retrieves the most recently set target coordinates (<cite>last_des_x</cite>, <cite>last_des_y</cite>)
+and returns them in the service response.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>req</strong> (<em>assignment_2_2024.srv.GetLastTargetRequest</em>) – Service request.</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>assignment_2_2024.srv.GetLastTargetRequest</em>) – Service request.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The last known target position (x, y).</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>A response message containing the last target position:</dt><dd><ul class="simple">
+<li><p><cite>last_target_x</cite> (float): The last known x-coordinate.</p></li>
+<li><p><cite>last_target_y</cite> (float): The last known y-coordinate.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>GetLastTargetResponse</p>

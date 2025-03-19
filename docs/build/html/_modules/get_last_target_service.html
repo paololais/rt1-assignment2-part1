@@ -72,23 +72,24 @@
 <span class="sd">.. module:: get_last_target_service</span>
 <span class="sd">   :platform: Unix</span>
 <span class="sd">   :synopsis: Python module for assignment_2_2024</span>
+<span class="sd">   :no-index:</span>
 <span class="sd">.. moduleauthor:: Paolo Laishram</span>
 
 <span class="sd">Description:</span>
 <span class="sd">    This node provides a service that returns the last target position set by the user.</span>
 <span class="sd">    It performs the following functions:</span>
 
-<span class="sd">    - Retrieving the Last Target</span>
+<span class="sd">    - **Retrieving the Last Target**:</span>
 
 <span class="sd">      - The node listens to the `/pos_vel` topic, which provides the robot&#39;s position and velocity.</span>
 <span class="sd">      - It extracts the last target position (x, y) from the ROS parameters `/des_pos_x` and `/des_pos_y`, which are updated when the user sets a new target.</span>
 
-<span class="sd">    - Providing the Last Target via Service</span>
+<span class="sd">    - **Providing the Last Target via Service**:</span>
 
 <span class="sd">      - The node provides a service (`/get_last_target`) that returns the last target position (x, y) when called.</span>
 <span class="sd">      - The service uses the `GetLastTarget` service, created specifically for this purpose, which includes the fields `last_target_x` and `last_target_y`.</span>
 
-<span class="sd">    - Node Execution</span>
+<span class="sd">    - **Node Execution**:</span>
 
 <span class="sd">      - The node continuously runs and listens for service calls.</span>
 <span class="sd">      - When a service call is made, it responds with the last target&#39;s position.</span>
@@ -101,6 +102,8 @@
 
 <span class="sd">Subscribed Topics:</span>
 <span class="sd">    - `/pos_vel` (assignment_2_2024/PositionVelocity): Robot position and velocity</span>
+
+<span class="sd">**Functions**: </span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -115,9 +118,16 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_last_target</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Callback function to update the last known target position.</span>
+<span class="sd">    </span>
+<span class="sd">    This function listens to the `/pos_vel` topic, extracts the current </span>
+<span class="sd">    target position from ROS parameters (`/des_pos_x` and `/des_pos_y`), </span>
+<span class="sd">    and updates the global variables `last_des_x` and `last_des_y`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        msg (assignment_2_2024.msg.PositionVelocity): Message containing robot&#39;s position and velocity.</span>
+<span class="sd">        msg (assignment_2_2024.msg.PositionVelocity): the received message containing the robot&#39;s position and velocity.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">last_des_x</span><span class="p">,</span> <span class="n">last_des_y</span>
 
@@ -133,12 +143,18 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">result_callback</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Service callback function to return the last known target position.</span>
+<span class="sd">    </span>
+<span class="sd">    This function is executed when the `/get_last_target` service is called. </span>
+<span class="sd">    It retrieves the most recently set target coordinates (`last_des_x`, `last_des_y`) </span>
+<span class="sd">    and returns them in the service response.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        req (assignment_2_2024.srv.GetLastTargetRequest): Service request.</span>
+<span class="sd">        s (assignment_2_2024.srv.GetLastTargetRequest): Service request.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        GetLastTargetResponse: The last known target position (x, y).</span>
+<span class="sd">        GetLastTargetResponse: A response message containing the last target position:</span>
+<span class="sd">            - `last_target_x` (float): The last known x-coordinate.</span>
+<span class="sd">            - `last_target_y` (float): The last known y-coordinate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">last_des_x</span><span class="p">,</span> <span class="n">last_des_y</span> 
     
@@ -154,7 +170,16 @@
 <div class="viewcode-block" id="last_target_service">
 <a class="viewcode-back" href="../index.html#get_last_target_service.last_target_service">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">last_target_service</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Initializes the service node and starts the service. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Initializes the service node and starts the service.</span>
+<span class="sd">    </span>
+<span class="sd">    This function initializes the ROS node, subscribes to the `/pos_vel` topic to track </span>
+<span class="sd">    the robot&#39;s movement, and sets up the `/get_last_target` service to provide </span>
+<span class="sd">    the last known target coordinates upon request.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;get_last_target_service&#39;</span><span class="p">)</span>
     <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s2">&quot;Last target node initialized&quot;</span><span class="p">)</span>
 
